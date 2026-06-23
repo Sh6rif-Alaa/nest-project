@@ -1,27 +1,64 @@
-import { BadRequestException, Body, Controller, DefaultValuePipe, HttpCode, HttpStatus, ParseBoolPipe, ParseEnumPipe, ParseIntPipe, Post, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Param, Post, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { CreatUserDto } from "./dto/createUser.dto";
-
+import { ConfirmEmailDto, CreatUserDto, RefreshTokenDto, ReSendOtpDto, SignInDto } from "./dto/createUser.dto";
 @Controller('user')
 // @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
 export class UserController {
     constructor(private readonly userService: UserService) { }
 
-    @Post()
-    // @HttpCode(HttpStatus.ACCEPTED)
+    @Post('signUp')
     @UsePipes(new ValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
-        // disableErrorMessages:true
-        // dismissDefaultMessages:true
-        // skipMissingProperties:true
-        // skipNullProperties:true
-        // skipUndefinedProperties:true
-        // errorHttpStatusCode:401
     }))
-    createUser(@Body() body: CreatUserDto): any {
-        // throw new BadRequestException("no user found")
-        return body
-        // return this.userService.createUser()
+    signUp(@Body() body: CreatUserDto): any {
+        return this.userService.signUp(body)
+    }
+
+    @Post('signIn')
+    @UsePipes(new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+    }))
+    signIn(@Body() body: SignInDto): any {
+        return this.userService.signIn(body)
+    }
+
+    @Post('confirmEmail')
+    @UsePipes(new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+    }))
+    confirmEmail(@Body() body: ConfirmEmailDto): any {
+        return this.userService.confirmEmail(body)
+    }
+
+    @Post('reSendOtp')
+    @UsePipes(new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+    }))
+    reSendOtp(@Body() body: ReSendOtpDto): any {
+        return this.userService.reSendOtp(body)
+    }
+
+    // @UseGuards(AuthenticationGuard)
+    // @Post('refreshToken')
+    // @UsePipes(new ValidationPipe({
+    //     whitelist: true,
+    //     forbidNonWhitelisted: true,
+    // }))
+    // refreshToken(@Headers() headers: RefreshTokenDto): any {
+    //     return this.userService.refreshToken(headers)
+    // }
+
+    @Get()
+    async getAllUsers(): Promise<any> {
+        return this.userService.getAllUsers()
+    }
+
+    @Get(":id")
+    async getUserById(@Param('id') id: string): Promise<any> {
+        return this.userService.getUserById(id)
     }
 }

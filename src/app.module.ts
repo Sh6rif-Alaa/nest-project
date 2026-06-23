@@ -4,10 +4,15 @@ import { AppService } from './app.service';
 import { UserModule } from './modules/users/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/nest', {
+    ConfigModule.forRoot({
+      envFilePath: [".env", ".env.development", ".env.production"],
+      isGlobal: true
+    }),
+    MongooseModule.forRoot(process.env.DB_URI!, {
       onConnectionCreate: (connection: Connection) => {
         connection.on('connected', () => console.log('connected to db successfully....'));
         return connection;
