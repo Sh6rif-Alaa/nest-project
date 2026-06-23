@@ -1,0 +1,171 @@
+{
+  "info": {
+    "_postman_id": "3efbfd32-8c08-43c4-b3db-005db1a81ecf",
+    "name": "nest",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46169774",
+    "_collection_link": "https://go.postman.co/collection/46169774-3efbfd32-8c08-43c4-b3db-005db1a81ecf?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "user",
+      "item": [
+        {
+          "name": "signUp",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userName\": \"Sherif Alaa\",\r\n    \"email\": \"sherefalex34@gmail.com\",\r\n    \"age\": 22,\r\n    \"phone\": \"01012983148\",\r\n    \"password\": \"Sh@123456\",\r\n    \"cPassword\": \"Sh@123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/user/signUp",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "signUp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "signIn",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"sherefalex34@gmail.com\",\r\n    \"password\": \"Sh@123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/user/signIn",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "signIn"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "reSendOtp",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"sherefalex34@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/user/reSendOtp",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "reSendOtp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "confirmEmail",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"sherefalex34@gmail.com\",\r\n    \"otp\": \"208729\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/user/confirmEmail",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "confirmEmail"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getUserById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/user/6a3add8087a4b5b01fb33dbc",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "6a3add8087a4b5b01fb33dbc"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllUsers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/user",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
