@@ -13,6 +13,7 @@ import { Types } from "mongoose";
 import { ProviderEnum } from "src/common/enum/user.enum";
 import successResponse from "src/common/utils/response.success";
 import TokenService from "src/common/services/token.service";
+import { UserDocument } from "src/DB/models/user.model";
 
 @Injectable()
 export class UserService {
@@ -28,7 +29,7 @@ export class UserService {
         const accessToken = await this.tokenService.generateToken({
             payload: { id: userId },
             options: {
-                secret: process.env.TOKEN_KEY!,
+                secret: process.env.ACCESS_USER_TOKEN_KEY!,
                 expiresIn: "1d",
                 jwtid: uuid
             }
@@ -37,7 +38,7 @@ export class UserService {
         const refreshToken = await this.tokenService.generateToken({
             payload: { id: userId },
             options: {
-                secret: process.env.REFRESH_TOKEN_KEY!,
+                secret: process.env.REFRESH_USER_TOKEN_KEY!,
                 expiresIn: "1y",
                 jwtid: uuid
             }
@@ -99,6 +100,10 @@ export class UserService {
 
     async getUserById(id: string): Promise<any> {
         const user = await this.userRepo.findById(id)
+        return successResponse({ data: user })
+    }
+
+    async getProfile(user: UserDocument): Promise<any> {
         return successResponse({ data: user })
     }
 
@@ -164,16 +169,16 @@ export class UserService {
         return successResponse({ message: "otp sent successfully" })
     }
 
-    // refreshToken = async (userId: string) => {
-    //     const accessToken = await this.tokenService.generateToken({
-    //         payload: { id: userId },
-    //         options: {
-    //             secret: process.env.TOKEN_KEY!,
-    //             expiresIn: "1d",
-    //             jwtid: randomUUID()
-    //         }
-    //     })
+    refreshToken = async (userId: string) => {
+        const accessToken = await this.tokenService.generateToken({
+            payload: { id: userId },
+            options: {
+                secret: process.env.ACCESS_USER_TOKEN_KEY!,
+                expiresIn: "1d",
+                jwtid: randomUUID()
+            }
+        })
 
-    //     return successResponse({ token: accessToken })
-    // }
+        return successResponse({ token: accessToken })
+    }
 }

@@ -41,6 +41,22 @@
         },
         {
           "name": "signIn",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let res = pm.response.json()\r",
+                  "console.log(res)\r",
+                  "pm.environment.set('accessToken',res.token.accessToken)\r",
+                  "pm.environment.set('refreshToken',res.token.refreshToken)"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [],
@@ -127,12 +143,18 @@
           "response": []
         },
         {
-          "name": "getUserById",
+          "name": "refreshToken",
           "request": {
-            "method": "GET",
-            "header": [],
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{refreshToken}}",
+                "type": "text"
+              }
+            ],
             "url": {
-              "raw": "{{local_url}}/api/v1/user/6a3add8087a4b5b01fb33dbc",
+              "raw": "{{local_url}}/api/v1/user/refreshToken",
               "host": [
                 "{{local_url}}"
               ],
@@ -140,7 +162,90 @@
                 "api",
                 "v1",
                 "user",
-                "6a3add8087a4b5b01fb33dbc"
+                "refreshToken"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "upload",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "c7ed6c22-ced1-446b-ab99-01defe53dda9",
+                  "src": "/C:/Users/Shifo/Downloads/merged-image.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/user/upload",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "upload"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{local_url}}/api/v1/user/profile",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getUserById",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{local_url}}/api/v1/user/6a3af016fddf40fa113c0ecb",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "6a3af016fddf40fa113c0ecb"
               ]
             }
           },

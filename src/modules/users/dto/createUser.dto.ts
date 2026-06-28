@@ -1,27 +1,5 @@
-import { IsEmail, IsInt, IsNotEmpty, IsString, IsStrongPassword, Length, Validate, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, registerDecorator, ValidationOptions, ValidateIf } from "class-validator";
-
-@ValidatorConstraint({ name: 'matchKey', async: false })
-export class matchKey implements ValidatorConstraintInterface {
-    validate(value: string, args: ValidationArguments) {
-        return args.value === args.object[args.constraints[0]]
-    }
-
-    defaultMessage(args: ValidationArguments) {
-        return `${args.property} not match with ${args.constraints[0]}`;
-    }
-}
-
-export function IsMatch(constraints: string[], validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        registerDecorator({
-            target: object.constructor,
-            propertyName: propertyName,
-            options: validationOptions,
-            constraints,
-            validator: matchKey,
-        });
-    };
-}
+import { IsEmail, IsInt, IsNotEmpty, IsString, IsStrongPassword, Length, ValidateIf } from "class-validator";
+import { IsMatch } from "src/common/decorator/user.decorator";
 
 export class CreatUserDto {
     @Length(3, 20, { message: "userName length must be between 3 to 20" })

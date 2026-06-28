@@ -12,3 +12,8 @@ export enum ProviderEnum {
     system = 'system',
     google = 'google',
 }
+
+export enum TokenTypeEnum {
+    accessToken = 'accessToken',
+    refreshToken = 'refreshToken'
+}
