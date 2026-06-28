@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService, JwtSignOptions, JwtVerifyOptions } from '@nestjs/jwt';
-import { JwtPayload } from 'jsonwebtoken';
+import { JwtPayload, JsonWebTokenError, TokenExpiredError, NotBeforeError } from 'jsonwebtoken';
 import RedisService from './redis.service';
 import UserRepo from 'src/DB/repo/user.repo';
 import { TokenTypeEnum } from '../enum/user.enum';
@@ -18,8 +18,16 @@ class TokenService {
     }
 
     verifyToken = async ({ token, options = {} }: { token: string, options?: JwtVerifyOptions }): Promise<JwtPayload> => {
-        return await this.jwtService.verifyAsync(token, options) as JwtPayload
+        try {
+            return await this.jwtService.verifyAsync(token, options) as JwtPayload
+        } catch (err) {
+            if (err instanceof TokenExpiredError) throw new BadRequestException('token expired')
+            if (err instanceof NotBeforeError) throw new BadRequestException('token not active yet')
+            if (err instanceof JsonWebTokenError) throw new BadRequestException('invalid token')
+            throw err
+        }
     }
+
 
     getSignature = (prefix: string) => {
         let accessSecret: string | undefined

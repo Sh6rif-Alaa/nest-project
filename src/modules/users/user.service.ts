@@ -14,13 +14,16 @@ import { ProviderEnum } from "src/common/enum/user.enum";
 import successResponse from "src/common/utils/response.success";
 import TokenService from "src/common/services/token.service";
 import { UserDocument } from "src/DB/models/user.model";
+import S3Service from "src/common/services/s3.service";
+import { ObjectCannedACL } from "@aws-sdk/client-s3";
 
 @Injectable()
 export class UserService {
     constructor(
         private readonly userRepo: UserRepo,
         private readonly redisService: RedisService,
-        private readonly tokenService: TokenService
+        private readonly tokenService: TokenService,
+        private readonly s3Service: S3Service,
     ) { }
 
     getTokens = async (userId: Types.ObjectId): Promise<{ accessToken: string, refreshToken: string }> => {
@@ -124,7 +127,7 @@ export class UserService {
         return successResponse({ data: user })
     }
 
-    signIn = async ({ email, password }: SignInDto) => {
+    async signIn({ email, password }: SignInDto) {
         const user = await this.userRepo.findOne({ filter: { email, confirmed: { $exists: true }, provider: ProviderEnum.system } })
         if (!user) throw new NotFoundException('user not exist or not confirmed (check your email)')
         if (!Compare({ plainText: password, hash: user.password })) throw new UnauthorizedException('invalid password')
@@ -134,7 +137,7 @@ export class UserService {
         return successResponse({ token: { accessToken, refreshToken } })
     }
 
-    confirmEmail = async ({ email, otp }: ConfirmEmailDto) => {
+    async confirmEmail({ email, otp }: ConfirmEmailDto) {
         const otpDb = await this.redisService.getValue(
             this.redisService.otpKey({ email, subject: emailEnum.confirmEmail })
         )
@@ -159,7 +162,7 @@ export class UserService {
         return successResponse({ message: "email verified successfully" })
     }
 
-    reSendOtp = async ({ email }: ReSendOtpDto) => {
+    async reSendOtp({ email }: ReSendOtpDto) {
         const user = await this.userRepo.findOne({ filter: { email, confirmed: { $exists: false }, provider: ProviderEnum.system } })
 
         if (!user) throw new NotFoundException("user not exist")
@@ -169,7 +172,7 @@ export class UserService {
         return successResponse({ message: "otp sent successfully" })
     }
 
-    refreshToken = async (userId: string) => {
+    async refreshToken(userId: string) {
         const accessToken = await this.tokenService.generateToken({
             payload: { id: userId },
             options: {
@@ -180,5 +183,20 @@ export class UserService {
         })
 
         return successResponse({ token: accessToken })
+    }
+
+    async uploadProfileImage(file: Express.Multer.File, userId: string) {
+        const { secure_url, public_id } = await this.s3Service.uploadFile({ 
+            file, 
+            path: `users/${userId}/profile_image`,
+            ACL: ObjectCannedACL.public_read
+        })
+
+        await this.userRepo.findOneAndUpdate({
+            filter: { _id: new Types.ObjectId(userId) },
+            update: { $set: { 'profilePicture.secure_url': secure_url, 'profilePicture.public_id': public_id } },
+        })
+
+        return successResponse({ data: { secure_url, public_id } })
     }
 }

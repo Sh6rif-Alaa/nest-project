@@ -6,11 +6,12 @@ import UserRepo from "src/DB/repo/user.repo";
 import { RedisModule } from "src/common/redis/redis.module";
 import TokenService from "src/common/services/token.service";
 import { JwtService } from "@nestjs/jwt";
+import S3Service from "src/common/services/s3.service";
 
 @Module({
     imports: [UserModel, RedisModule],
     controllers: [UserController],
-    providers: [UserService, UserRepo, TokenService, JwtService],
+    providers: [UserService, UserRepo, TokenService, JwtService, S3Service],
     exports: [],
 })
 export class UserModule { }

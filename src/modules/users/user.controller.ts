@@ -9,6 +9,8 @@ import { Auth, Roles, TokenType } from "src/common/decorator/auth.decorator";
 import { AuthorizationGuard } from "src/common/guards/authorization.guard";
 import { type UserDocument } from "src/DB/models/user.model";
 import { User } from "src/common/decorator/user.decorator";
+import { multer_cloud } from "src/common/utils/multer.utils";
+import { StorageEnum } from "src/common/enum/multer_enum";
 
 @Controller('user')
 // @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -52,16 +54,10 @@ export class UserController {
     }
 
     @Post('upload')
-    @UseInterceptors(FileInterceptor('file', {
-        storage: multer.diskStorage({
-            destination: './upload',
-            filename: (req, file, cb) => {
-                cb(null, file.originalname)
-            }
-        })
-    }))
-    uploadFile(@UploadedFile() file: Express.Multer.File) {
-        console.log(file);
+    @Auth()
+    @UseInterceptors(FileInterceptor('image', multer_cloud({ storageType: StorageEnum.disk })))
+    uploadProfileImage(@UploadedFile() file: Express.Multer.File, @User() user: UserDocument) {
+        return this.userService.uploadProfileImage(file, user._id.toString())
     }
 
     @Post('refreshToken')
