@@ -172,12 +172,18 @@
           "name": "upload",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "formdata",
               "formdata": [
                 {
-                  "key": "file",
+                  "key": "image",
                   "type": "file",
                   "uuid": "c7ed6c22-ced1-446b-ab99-01defe53dda9",
                   "src": "/C:/Users/Shifo/Downloads/merged-image.png"
@@ -265,6 +271,178 @@
                 "api",
                 "v1",
                 "user"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "category",
+      "item": [
+        {
+          "name": "createCategory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Phones",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "7b569d17-0f13-4ef2-a92f-2e9202a45497",
+                  "src": "/C:/Users/Shifo/Pictures/658723.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/category",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "category"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateCategory",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Computers",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "7b569d17-0f13-4ef2-a92f-2e9202a45497",
+                  "src": "/C:/Users/Shifo/Downloads/logo.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/category/6a44175e5c9b22b82dbf4427",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "category",
+                "6a44175e5c9b22b82dbf4427"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteCategory",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Phones",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "7b569d17-0f13-4ef2-a92f-2e9202a45497",
+                  "src": "/C:/Users/Shifo/Pictures/658723.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/category/6a43fcb2bb8d52180881e875",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "category",
+                "6a43fcb2bb8d52180881e875"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllCategories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/category",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "category"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getCategoryById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/category/6a43fcb2bb8d52180881e875",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "category",
+                "6a43fcb2bb8d52180881e875"
               ]
             }
           },

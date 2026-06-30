@@ -81,6 +81,19 @@ abstract class BaseRepo<TDoc> {
         return this.model.findOneAndUpdate(filter, update, { returnDocument: 'after', ...options })
     }
 
+    async findByIdAndUpdate(
+        {
+            id,
+            update,
+            options
+        }: {
+            id: string,
+            update: UpdateQuery<TDoc>,
+            options?: QueryOptions<TDoc>
+        }): Promise<HydratedDocument<TDoc> | null> {
+        return this.model.findByIdAndUpdate(id, update, { returnDocument: 'after', ...options })
+    }
+
     async findByIdAndDelete(id: string): Promise<HydratedDocument<TDoc> | null> {
         return this.model.findByIdAndDelete(id)
     }

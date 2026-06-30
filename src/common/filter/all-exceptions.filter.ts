@@ -26,6 +26,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
             message = exception.message;
         }
 
+        console.log({ exception })
+
         // Format the final JSON response sent to the client
         response.status(status).json({
             message: "failed",

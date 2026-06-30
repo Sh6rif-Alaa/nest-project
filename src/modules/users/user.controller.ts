@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Headers, Param, Post, SetMetadata, UploadedFile, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { ConfirmEmailDto, CreatUserDto, RefreshTokenDto, ReSendOtpDto, SignInDto } from "./dto/createUser.dto";
+import { ConfirmEmailDto, CreatUserDto, RefreshTokenDto, ReSendOtpDto, SignInDto } from "./user.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import multer from "multer";
 import { AuthGuard } from "src/common/guards/authentication.guard";
@@ -61,7 +61,7 @@ export class UserController {
     }
 
     @Post('refreshToken')
-    @Auth(TokenTypeEnum.refreshToken)
+    @Auth({ type: TokenTypeEnum.refreshToken })
     refreshToken(@User() user: UserDocument): any {
         return this.userService.refreshToken(user._id.toString())
     }

@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { ConfirmEmailDto, CreatUserDto, ReSendOtpDto, SignInDto } from "./dto/createUser.dto";
+import { ConfirmEmailDto, CreatUserDto, ReSendOtpDto, SignInDto } from "./user.dto";
 import UserRepo from "../../DB/repo/user.repo";
 import { Compare, Hash } from "src/common/utils/security/hash.security";
 import { encrypt } from "src/common/utils/security/encrypt.security";
@@ -10,7 +10,7 @@ import { emailEnum } from "src/common/enum/email.enum";
 import RedisService from "src/common/services/redis.service";
 import { randomUUID } from "node:crypto";
 import { Types } from "mongoose";
-import { ProviderEnum } from "src/common/enum/user.enum";
+import { ProviderEnum, RoleEnum } from "src/common/enum/user.enum";
 import successResponse from "src/common/utils/response.success";
 import TokenService from "src/common/services/token.service";
 import { UserDocument } from "src/DB/models/user.model";
@@ -26,13 +26,13 @@ export class UserService {
         private readonly s3Service: S3Service,
     ) { }
 
-    getTokens = async (userId: Types.ObjectId): Promise<{ accessToken: string, refreshToken: string }> => {
+    getTokens = async (userId: Types.ObjectId, role: RoleEnum): Promise<{ accessToken: string, refreshToken: string }> => {
         const uuid = randomUUID()
 
         const accessToken = await this.tokenService.generateToken({
             payload: { id: userId },
             options: {
-                secret: process.env.ACCESS_USER_TOKEN_KEY!,
+                secret: role === RoleEnum.admin ? process.env.ACCESS_ADMIN_TOKEN_KEY! : process.env.ACCESS_USER_TOKEN_KEY!,
                 expiresIn: "1d",
                 jwtid: uuid
             }
@@ -41,7 +41,7 @@ export class UserService {
         const refreshToken = await this.tokenService.generateToken({
             payload: { id: userId },
             options: {
-                secret: process.env.REFRESH_USER_TOKEN_KEY!,
+                secret: role === RoleEnum.admin ? process.env.REFRESH_ADMIN_TOKEN_KEY! : process.env.REFRESH_USER_TOKEN_KEY!,
                 expiresIn: "1y",
                 jwtid: uuid
             }
@@ -132,7 +132,7 @@ export class UserService {
         if (!user) throw new NotFoundException('user not exist or not confirmed (check your email)')
         if (!Compare({ plainText: password, hash: user.password })) throw new UnauthorizedException('invalid password')
 
-        const { accessToken, refreshToken } = await this.getTokens(user._id)
+        const { accessToken, refreshToken } = await this.getTokens(user._id, user.role)
 
         return successResponse({ token: { accessToken, refreshToken } })
     }
@@ -186,8 +186,8 @@ export class UserService {
     }
 
     async uploadProfileImage(file: Express.Multer.File, userId: string) {
-        const { secure_url, public_id } = await this.s3Service.uploadFile({ 
-            file, 
+        const { secure_url, public_id } = await this.s3Service.uploadFile({
+            file,
             path: `users/${userId}/profile_image`,
             ACL: ObjectCannedACL.public_read
         })

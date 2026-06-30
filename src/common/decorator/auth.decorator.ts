@@ -10,7 +10,9 @@ export const TokenType = (type: TokenTypeEnum = TokenTypeEnum.accessToken) => Se
 
 export const Roles = (roles: RoleEnum[] = [RoleEnum.user]) => SetMetadata(ROLE_KEY, roles)
 
-export function Auth(type: TokenTypeEnum = TokenTypeEnum.accessToken, roles: RoleEnum[] = [RoleEnum.user]) {
+export function Auth({
+    type = TokenTypeEnum.accessToken, roles = [RoleEnum.user]
+}: { type?: TokenTypeEnum, roles?: RoleEnum[] } = {}) {
     return applyDecorators(
         TokenType(type),
         Roles(roles),
