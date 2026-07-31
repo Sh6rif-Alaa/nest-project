@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         let req: any
         let authorization: string
-        const tokenType = this.reflector.get<TokenTypeEnum>(TOKEN_TYPE, context.getHandler())
+        const tokenType = this.reflector.get<TokenTypeEnum>(TOKEN_TYPE, context.getHandler()) ?? TokenTypeEnum.accessToken
 
         if (context.getType() === 'http') {
             req = context.switchToHttp().getRequest()

@@ -48,7 +48,6 @@ class TokenService {
 
     decodeTokenAndFetchUser = async (token: string, secret: string) => {
         const decode = await this.verifyToken({ token, options: { secret } })
-
         if (!decode || !decode?.id) throw new BadRequestException('invalid token')
 
         const user = await this.userRepo.findById(decode.id)

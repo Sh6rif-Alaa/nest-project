@@ -101,7 +101,7 @@ export class UserService {
         return successResponse({ data: users })
     }
 
-    async getUserById(id: string): Promise<any> {
+    async getUserById(id: Types.ObjectId): Promise<any> {
         const user = await this.userRepo.findById(id)
         return successResponse({ data: user })
     }

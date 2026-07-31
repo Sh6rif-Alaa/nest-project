@@ -8,6 +8,7 @@ import { Auth } from "src/common/decorator/auth.decorator";
 import { RoleEnum } from "src/common/enum/user.enum";
 import { User } from "src/common/decorator/user.decorator";
 import { type UserDocument } from "src/DB/models/user.model";
+import { idDto } from "../brand/brand.dto";
 
 @Controller("category")
 export class CategoryController {
@@ -30,14 +31,14 @@ export class CategoryController {
     }
 
     @Get(":id")
-    getCategoryById(@Param('id') id: string): Promise<any> {
-        return this.categoryService.getCategoryById(id);
+    getCategoryById(@Param() params: idDto): Promise<any> {
+        return this.categoryService.getCategoryById(params.id);
     }
 
     @Delete(":id")
     @Auth({ roles: [RoleEnum.admin] })
-    deleteCategory(@Param('id') id: string): Promise<any> {
-        return this.categoryService.deleteCategory(id);
+    deleteCategory(@Param() params: idDto): Promise<any> {
+        return this.categoryService.deleteCategory(params.id);
     }
 
     @Patch(":id")
@@ -47,7 +48,7 @@ export class CategoryController {
     }))
     @Auth({ roles: [RoleEnum.admin] })
     @UseInterceptors(FileInterceptor('image', multer_cloud({ storageType: StorageEnum.disk })))
-    updateCategory(@UploadedFile() file: Express.Multer.File, @Param('id') id: string, @Body() body: CreateCategoryDto): Promise<any> {
-        return this.categoryService.updateCategory(file, id, body);
+    updateCategory(@UploadedFile() file: Express.Multer.File, @Param() params: idDto, @Body() body: CreateCategoryDto): Promise<any> {
+        return this.categoryService.updateCategory(file, params.id, body);
     }
 }

@@ -2,7 +2,9 @@ import { Model } from "mongoose";
 import { User } from "../models/user.model";
 import BaseRepo from "./base.repo";
 import { InjectModel } from "@nestjs/mongoose";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 class UserRepo extends BaseRepo<User> {
     constructor(@InjectModel(User.name) model: Model<User>) { super(model) }
 }

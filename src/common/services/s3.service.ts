@@ -29,7 +29,7 @@ class S3Service {
         path?: string | undefined;
         ACL?: ObjectCannedACL;
         file: Express.Multer.File;
-    }): Promise<{secure_url: string, public_id: string}> {
+    }): Promise<{ secure_url: string, public_id: string }> {
         const command = new PutObjectCommand({
             Bucket,
             Key: `${process.env.AWS_BUCKET_NAME}/${path}/${Date.now()}__${Math.random()}/${file.originalname}`,
@@ -43,10 +43,10 @@ class S3Service {
         if (!command.input?.Key) {
             throw new BadRequestException("Fail to upload");
         }
-        
-        return { 
-            secure_url: `https://${command.input.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${command.input.Key}`, 
-            public_id: command.input.Key 
+
+        return {
+            secure_url: `https://${command.input.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${command.input.Key}`,
+            public_id: command.input.Key
         }
     };
 
@@ -60,7 +60,7 @@ class S3Service {
         store?: StorageEnum;
         path?: string;
         ACL?: ObjectCannedACL;
-    }): Promise<string> {
+    }): Promise<{ secure_url: string, public_id: string }> {
         const command = new Upload({
             client: this.s3Client,
             params: {
@@ -78,7 +78,11 @@ class S3Service {
 
         const result = await command.done();
 
-        return result.Key as string;
+        // test it
+        return {
+            secure_url: `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${result.Key}`,
+            public_id: result.Key!
+        };
     }
 
     async uploadFiles({
@@ -93,8 +97,8 @@ class S3Service {
         path?: string;
         ACL?: ObjectCannedACL;
         isLarge?: boolean;
-    }): Promise<Object> {
-        let urls: Object[] = [];
+    }): Promise<{ secure_url: string, public_id: string }[]> {
+        let urls: { secure_url: string, public_id: string }[] = [];
 
         if (isLarge) {
             urls = await Promise.all(files.map((file) => {

@@ -11,6 +11,7 @@ import { type UserDocument } from "src/DB/models/user.model";
 import { User } from "src/common/decorator/user.decorator";
 import { multer_cloud } from "src/common/utils/multer.utils";
 import { StorageEnum } from "src/common/enum/multer_enum";
+import { idDto } from "../brand/brand.dto";
 
 @Controller('user')
 // @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -79,7 +80,7 @@ export class UserController {
 
     @Get(":id")
     @Auth()
-    async getUserById(@Param('id') id: string): Promise<any> {
-        return this.userService.getUserById(id)
+    async getUserById(@Param() params: idDto): Promise<any> {
+        return this.userService.getUserById(params.id)
     }
 }
