@@ -72,6 +72,9 @@ export class User {
 
     @Prop({ type: Date })
     deletedAt: Date
+
+    @Prop({ type: [Types.ObjectId], ref: 'Product' })
+    wishList: Types.ObjectId[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

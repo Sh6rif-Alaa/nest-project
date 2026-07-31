@@ -51,4 +51,14 @@ export class ProductController {
     updateProduct(@UploadedFiles() files: { mainImage: Express.Multer.File[], subImages: Express.Multer.File[] }, @Param() params: idDto, @Body() body: UpdateProductDto): Promise<any> {
         return this.productService.updateProduct(files, params.id, body);
     }
+
+    @Post("/wishList/:id")
+    @UsePipes(new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+    }))
+    @Auth()
+    addtoWishList(@Param() params: idDto, @User() user: UserDocument): Promise<any> {
+        return this.productService.addtoWishList(params.id, user._id);
+    }
 }

@@ -82,7 +82,7 @@ abstract class BaseRepo<TDoc> {
             update?: UpdateQuery<TDoc>,
             options?: QueryOptions<TDoc>
         }): Promise<HydratedDocument<TDoc> | null> {
-        return this.model.findOneAndUpdate(filter, { $set: update }, { returnDocument: 'after', ...options })
+        return this.model.findOneAndUpdate(filter, update, { returnDocument: 'after', ...options })
     }
 
     async findByIdAndUpdate(

@@ -22,7 +22,7 @@ export class CategoryService {
 
         const stringBrandIds = ([... new Set(brands || [])] as any).map(id => Types.ObjectId.createFromHexString(id));
 
-        if (brands?.length && (await this.brandRepo.findByIds(stringBrandIds)).length !== stringBrandIds.length) 
+        if (brands?.length && (await this.brandRepo.findByIds(stringBrandIds)).length !== stringBrandIds.length)
             throw new NotFoundException("some of id not found")
 
         const { secure_url, public_id } = await this.s3Service.uploadFile({

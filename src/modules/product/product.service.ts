@@ -9,12 +9,14 @@ import { Types } from "mongoose";
 import BrandRepo from "src/DB/repo/brand.repo";
 import ProductRepo from "src/DB/repo/product.repo";
 import SubCategoryRepo from "src/DB/repo/subCategory.repo";
+import UserRepo from "src/DB/repo/user.repo";
 
 
 @Injectable()
 export class ProductService {
     constructor(
         private readonly productRepo: ProductRepo,
+        private readonly userRepo: UserRepo,
         private readonly categoryRepo: CategoryRepo,
         private readonly subCategoryRepo: SubCategoryRepo,
         private readonly brandRepo: BrandRepo,
@@ -144,8 +146,28 @@ export class ProductService {
         const product = await this.productRepo.findByIdAndDelete(id)
         if (!product) throw new NotFoundException("Product not found")
         await this.s3Service.deleteFile(product.mainImage.public_id)
-        if (product.subImages && product.subImages?.length > 0) 
+        if (product.subImages && product.subImages?.length > 0)
             await this.s3Service.deleteFiles(product.subImages.map((img) => img.public_id))
         return successResponse({ data: product })
+    }
+
+    async addtoWishList(id: Types.ObjectId, userId: Types.ObjectId): Promise<any> {
+        if (!await this.productRepo.findById(id)) throw new NotFoundException("Product not found")
+
+        let isExist: boolean = false
+        const prodcutExist = await this.userRepo.findOneAndUpdate({
+            filter: { _id: userId, wishList: { $in: [id] } },
+            update: { $pull: { wishList: id } }
+        })
+
+        if (!prodcutExist) {
+            await this.userRepo.findOneAndUpdate({
+                filter: { _id: userId },
+                update: { $push: { wishList: id } }
+            })
+            isExist = true
+        }
+
+        return isExist === true ? successResponse({ message: "product added to wishlist" }) : successResponse({ message: "product removed from wishlist" })
     }
 }
