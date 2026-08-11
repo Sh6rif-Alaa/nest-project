@@ -1,5 +1,6 @@
-import { IsEmail, IsInt, IsNotEmpty, IsString, IsStrongPassword, Length, ValidateIf } from "class-validator";
+import { IsEmail, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsStrongPassword, Length, ValidateIf } from "class-validator";
 import { IsMatch } from "src/common/decorator/user.decorator";
+import { RoleEnum } from "src/common/enum/user.enum";
 
 export class CreatUserDto {
     @Length(3, 20, { message: "userName length must be between 3 to 20" })
@@ -28,6 +29,10 @@ export class CreatUserDto {
     @ValidateIf((data: CreatUserDto) => { return Boolean(data.password) })
     @IsMatch(['password'])
     cPassword: string;
+
+    @IsOptional()
+    @IsEnum(RoleEnum)
+    role: RoleEnum
 }
 
 export class SignInDto {

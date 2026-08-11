@@ -110,7 +110,7 @@ export class UserService {
         return successResponse({ data: user })
     }
 
-    async signUp({ userName, email, password, age, phone }: CreatUserDto): Promise<any> {
+    async signUp({ userName, email, password, age, phone, role }: CreatUserDto): Promise<any> {
         if (await this.userRepo.findOne({ filter: { email } }))
             throw new ConflictException("this email already used")
 
@@ -121,7 +121,8 @@ export class UserService {
             email,
             password: Hash({ plainText: password }),
             phone: encrypt(phone),
-            age
+            age,
+            role,
         });
 
         return successResponse({ data: user })

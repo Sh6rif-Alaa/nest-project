@@ -17,7 +17,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"userName\": \"Sherif Alaa\",\r\n    \"email\": \"sherefalex34@gmail.com\",\r\n    \"age\": 22,\r\n    \"phone\": \"01012983148\",\r\n    \"password\": \"Sh@123456\",\r\n    \"cPassword\": \"Sh@123456\"\r\n}",
+              "raw": "{\r\n    \"userName\": \"super admin\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"age\": 30,\r\n    \"role\":\"admin\",\r\n    \"phone\": \"01012983148\",\r\n    \"password\": \"Ad@123456\",\r\n    \"cPassword\": \"Ad@123456\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -48,8 +48,8 @@
                 "exec": [
                   "let res = pm.response.json()\r",
                   "console.log(res)\r",
-                  "pm.environment.set('accessToken',res.token.accessToken)\r",
-                  "pm.environment.set('refreshToken',res.token.refreshToken)"
+                  "pm.environment.set('accessToken',res.data.token.accessToken)\r",
+                  "pm.environment.set('refreshToken',res.data.token.refreshToken)"
                 ],
                 "type": "text/javascript",
                 "packages": {},
@@ -302,10 +302,22 @@
                   "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
                 },
                 {
+                  "key": "brands[0]",
+                  "value": "6a7b69d0053fe2a21b378d2d",
+                  "type": "text",
+                  "uuid": "8b30542c-316e-408f-a8d4-78e109fd57aa"
+                },
+                {
+                  "key": "brands[1]",
+                  "value": "6a7b69e3053fe2a21b378d2e",
+                  "type": "text",
+                  "uuid": "d258f0e9-5416-4a42-8c04-9740023ef964"
+                },
+                {
                   "key": "image",
                   "type": "file",
-                  "uuid": "7b569d17-0f13-4ef2-a92f-2e9202a45497",
-                  "src": "/C:/Users/Shifo/Pictures/658723.jpg"
+                  "uuid": "e7c28d6c-051e-4c6d-ba73-8da1e01a0109",
+                  "src": "/C:/Users/Shifo/Downloads/صور مواقعي/iPhone-13-PRO-berry-3-d-animation.vercel.app.png"
                 }
               ]
             },
@@ -443,6 +455,943 @@
                 "v1",
                 "category",
                 "6a43fcb2bb8d52180881e875"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "cart",
+      "item": [
+        {
+          "name": "createCart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\": \"6a7b6adb053fe2a21b378d33\",\r\n    \"quantity\": 30\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/cart",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProductQuantity",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\": \"6a6ccc0e972a3f531bfba0a1\",\r\n    \"quantity\": 20\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/cart",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "removeProductFromCart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{local_url}}/api/v1/cart/6a6ce9ecfef96f80e217cddf",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "cart",
+                "6a6ce9ecfef96f80e217cddf"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "order",
+      "item": [
+        {
+          "name": "createOrder",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"address\": \"alex\",\r\n    \"phone\": \"01012983148\",\r\n    \"couponCode\":\"shifo\",\r\n    \"paymentMethod\": \"card\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/order",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "stripe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{local_url}}/api/v1/order/stripe/6a7b6b97053fe2a21b378d42",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "order",
+                "stripe",
+                "6a7b6b97053fe2a21b378d42"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refund",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{local_url}}/api/v1/order/refund/6a7b6b97053fe2a21b378d42",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "order",
+                "refund",
+                "6a7b6b97053fe2a21b378d42"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "coupon",
+      "item": [
+        {
+          "name": "createCoupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"code\": \"shifo\",\r\n    \"amount\": 90,\r\n    \"fromDate\":\"2026-08-15\",\r\n    \"toDate\":\"2027-07-01\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/coupon",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "coupon"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateCoupon",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"code\": \"sherif\",\r\n    \"amount\": 50,\r\n    \"fromDate\":\"2026-08-02\",\r\n    \"toDate\":\"2027-08-01\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/coupon/6a6d07403d832f726e2e2ba8",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "coupon",
+                "6a6d07403d832f726e2e2ba8"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteCoupon",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{local_url}}/api/v1/coupon/6a6d07403d832f726e2e2ba8",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "coupon",
+                "6a6d07403d832f726e2e2ba8"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "product",
+      "item": [
+        {
+          "name": "createProduct",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "9 Up",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "brandId",
+                  "value": "6a7b69d0053fe2a21b378d2d",
+                  "type": "text",
+                  "uuid": "8b30542c-316e-408f-a8d4-78e109fd57aa"
+                },
+                {
+                  "key": "mainImage",
+                  "type": "file",
+                  "uuid": "e7c28d6c-051e-4c6d-ba73-8da1e01a0109",
+                  "src": "/C:/Users/Shifo/Downloads/صور مواقعي/Samsung-Galaxy-S20-3d-raspberry-seven.vercel.app (2).png"
+                },
+                {
+                  "key": "subImages",
+                  "type": "file",
+                  "uuid": "41f04a07-ef2c-4ac8-aeff-4c6db8807e78",
+                  "src": [
+                    "/C:/Users/Shifo/Downloads/صور مواقعي/Samsung-Galaxy-S20-3-d-marketing.vercel.app (6).png",
+                    "/C:/Users/Shifo/Downloads/صور مواقعي/Samsung-Galaxy-S20-3-d-marketing.vercel.app.png"
+                  ]
+                },
+                {
+                  "key": "categoryId",
+                  "value": "6a7b6a13053fe2a21b378d2f",
+                  "type": "text",
+                  "uuid": "bd880bea-512c-4378-b6d9-e9f0883857c3"
+                },
+                {
+                  "key": "subCategoryId",
+                  "value": "6a7b6a3b053fe2a21b378d30",
+                  "type": "text",
+                  "uuid": "25275f43-ba16-4201-9d80-65fbd81c806f"
+                },
+                {
+                  "key": "price",
+                  "value": "300",
+                  "type": "text",
+                  "uuid": "377e91f0-f3a1-43b5-98f1-65a37fa5a03a"
+                },
+                {
+                  "key": "discount",
+                  "value": "80",
+                  "type": "text",
+                  "uuid": "d98c5627-7ad4-4025-a7d3-af4cfc62b0cd"
+                },
+                {
+                  "key": "description",
+                  "value": "this is a good product for you",
+                  "type": "text",
+                  "uuid": "e34b30db-b5ee-4937-a4db-a5a199434a6c"
+                },
+                {
+                  "key": "stock",
+                  "value": "1000",
+                  "type": "text",
+                  "uuid": "917356ca-f706-480e-93e1-7b572ddb7b07"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/product",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "product"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProduct",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "11 Up",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "price",
+                  "value": "300",
+                  "type": "text",
+                  "uuid": "0a83b29e-a5c6-4fc0-a193-8e6d3a180409"
+                },
+                {
+                  "key": "mainImage",
+                  "type": "file",
+                  "uuid": "3c5d7896-3ad0-4629-9825-d31558a8a2eb",
+                  "src": "/C:/Users/Shifo/Downloads/صور مواقعي/Samsung-Galaxy-S20-j-3-d-bee-animation.vercel.app (1).png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/Product/6a6ccc5e972a3f531bfba0a2",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "Product",
+                "6a6ccc5e972a3f531bfba0a2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteProduct",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{local_url}}/api/v1/product/6a6ccc5e972a3f531bfba0a2",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "product",
+                "6a6ccc5e972a3f531bfba0a2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllProduct",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/product",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "product"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getProductById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/product/6a6ccc0e972a3f531bfba0a1",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "product",
+                "6a6ccc0e972a3f531bfba0a1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "addtoWishList",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_user}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{local_url}}/api/v1/product/wishList/6a6ce9ecfef96f80e217cddf",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "product",
+                "wishList",
+                "6a6ce9ecfef96f80e217cddf"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "subCategory",
+      "item": [
+        {
+          "name": "createSubCategory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "oppo",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "e7c28d6c-051e-4c6d-ba73-8da1e01a0109",
+                  "src": "/C:/Users/Shifo/Downloads/صور مواقعي/Macbook-Air-j-3-d-bee-animation.vercel.app.png"
+                },
+                {
+                  "key": "category",
+                  "value": "6a7b6a13053fe2a21b378d2f",
+                  "type": "text",
+                  "uuid": "1bb06c07-ce64-4be5-b5d8-4152009cf982"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/subCategory",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subCategory"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateSubCategory",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Iphone",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "category",
+                  "value": "6a6cab2973f223b2add25958",
+                  "type": "text",
+                  "uuid": "54e72402-20a5-4a16-921f-d47de0a5fdeb"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "8b147bc2-b4ca-4edf-b992-050ea46f39e1",
+                  "src": "/C:/Users/Shifo/Downloads/صور مواقعي/Samsung-Galaxy-S20-3d-raspberry-seven.vercel.app (3).png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/subCategory/6a6cae21732999a273a4d8bf",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subCategory",
+                "6a6cae21732999a273a4d8bf"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteSubCategory",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Phones",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "7b569d17-0f13-4ef2-a92f-2e9202a45497",
+                  "src": "/C:/Users/Shifo/Pictures/658723.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/subCategory/6a6cae21732999a273a4d8bf",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subCategory",
+                "6a6cae21732999a273a4d8bf"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllSubCategory",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/subCategory",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subCategory"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSubCategoryById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/subCategory/6a6cae21732999a273a4d8bf",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subCategory",
+                "6a6cae21732999a273a4d8bf"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "brand",
+      "item": [
+        {
+          "name": "createBrand",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "sumsung",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "7b569d17-0f13-4ef2-a92f-2e9202a45497",
+                  "src": "/C:/Users/Shifo/Downloads/صور مواقعي/Samsung-Galaxy-S20-3d-raspberry-seven.vercel.app (3).png"
+                },
+                {
+                  "key": "slogan",
+                  "value": "you can do it",
+                  "type": "text",
+                  "uuid": "d7f3fe8e-be5e-4495-a2f2-2d1b0618f9e5"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/brand",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "brand"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateBrand",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"opp 2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/brand/6a4ced9f8ea81d66b7423f8d",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "brand",
+                "6a4ced9f8ea81d66b7423f8d"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateBrandImage",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "7b569d17-0f13-4ef2-a92f-2e9202a45497",
+                  "src": "/C:/Users/Shifo/Downloads/صور مواقعي/iPhone-13-PRO-127.0.0.1 (1).png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/brand/image/6a4d06abe460fb4c42ae31d0",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "brand",
+                "image",
+                "6a4d06abe460fb4c42ae31d0"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteBrand",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{prefix_admin}}{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Phones",
+                  "type": "text",
+                  "uuid": "c8d4cb15-f914-44d6-a885-1088657472db"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "7b569d17-0f13-4ef2-a92f-2e9202a45497",
+                  "src": "/C:/Users/Shifo/Pictures/658723.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{local_url}}/api/v1/Brand/6a4ced9f8ea81d66b7423f8d",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "Brand",
+                "6a4ced9f8ea81d66b7423f8d"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllBrands",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/brand?page=1&limit=2&search=go",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "brand"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "2"
+                },
+                {
+                  "key": "search",
+                  "value": "go"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getBrandById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local_url}}/api/v1/brand/6a4ced9f8ea81d66b7423f8d",
+              "host": [
+                "{{local_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "brand",
+                "6a4ced9f8ea81d66b7423f8d"
               ]
             }
           },
